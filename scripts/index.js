@@ -21,12 +21,13 @@ function createCard() {
 function addCard({ name, link }, deleteCard) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
-  const ButtonDelete = cardItem.querySelector(".card__delete-button");
+  const buttonDelete = cardItem.querySelector(".card__delete-button");
 
   cardItem.querySelector(".card__image").src = link;
+  cardItem.querySelector(".card__image").alt = name;
   cardItem.querySelector(".card__title").textContent = name;
 
-  ButtonDelete.addEventListener("click", () => deleteCard(cardItem));
+  buttonDelete.addEventListener("click", () => deleteCard(cardItem));
 
   return cardItem;
 }
