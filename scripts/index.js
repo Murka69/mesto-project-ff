@@ -7,3 +7,32 @@
 // @todo: Функция удаления карточки
 
 // @todo: Вывести карточки на страницу
+
+const temp = document.querySelector(".content");
+const cardsContent = temp.querySelector(".places__list");
+
+function createCard() {
+  initialCards.forEach(({ name, link }) => {
+    const card = addCard({ name, link }, deleteCard);
+    cardsContent.append(card);
+  });
+}
+
+function addCard({ name, link }, deleteCard) {
+  const cardTemplate = document.querySelector("#card-template").content;
+  const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
+  const ButtonDelete = cardItem.querySelector(".card__delete-button");
+
+  cardItem.querySelector(".card__image").src = link;
+  cardItem.querySelector(".card__title").textContent = name;
+
+  ButtonDelete.addEventListener("click", () => deleteCard(cardItem));
+
+  return cardItem;
+}
+
+function deleteCard(cardItem) {
+  cardItem.remove();
+}
+
+createCard();
