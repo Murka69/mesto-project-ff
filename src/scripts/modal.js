@@ -35,3 +35,4 @@ function setupPopupCloseListeners() {
   });
 }
 export { openModal, closeModal, setupPopupCloseListeners };
+
