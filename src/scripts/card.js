@@ -1,10 +1,10 @@
-export function renderCards(initialCards, cardsContent, openImagePopup, handleLike) {
+export function renderCards(initialCards, cardsContent, openImagePopup, handleLike,deleteCard) {
   initialCards.forEach(({ name, link }) => {
     const card = createCardElement({ name, link }, deleteCard, openImagePopup, handleLike);
     cardsContent.append(card);
   });
 }
-function handleLikeCard(likeButton) {
+export function handleLike(likeButton) {
   likeButton.classList.toggle("card__like-button_is-active");
 }
 export function createCardElement({ name, link }, deleteCard, openImagePopup, handleLike) {
@@ -25,7 +25,7 @@ export function createCardElement({ name, link }, deleteCard, openImagePopup, ha
     }
   });
   likeButton.addEventListener("click", () => {
-    handleLikeCard(likeButton);
+    handleLike(likeButton);
   });
   return cardItem;
 }
