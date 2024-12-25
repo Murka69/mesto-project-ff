@@ -1,12 +1,14 @@
-export function renderCards(initialCards, cardsContent, openImagePopup, handleLike,deleteCard) {
+export function renderCards(initialCards, cardsContent, openImagePopup, handleLike, deleteCard) {
   initialCards.forEach(({ name, link }) => {
     const card = createCardElement({ name, link }, deleteCard, openImagePopup, handleLike);
     cardsContent.append(card);
   });
 }
+
 export function handleLike(likeButton) {
   likeButton.classList.toggle("card__like-button_is-active");
 }
+
 export function createCardElement({ name, link }, deleteCard, openImagePopup, handleLike) {
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
@@ -24,13 +26,14 @@ export function createCardElement({ name, link }, deleteCard, openImagePopup, ha
       openImagePopup(name, link);
     }
   });
+
   likeButton.addEventListener("click", () => {
     handleLike(likeButton);
   });
+
   return cardItem;
 }
 
 export function deleteCard(cardItem) {
   cardItem.remove();
 }
-

@@ -37,7 +37,8 @@ function openImagePopup(name, link) {
   popupCaptionElement.textContent = name;
   openModal(popupImage);
 }
-renderCards(initialCards, cardsContent, openImagePopup,deleteCard,handleLike);
+
+renderCards(initialCards, cardsContent, openImagePopup, handleLike, deleteCard);
 
 function openEditProfilePopup() {
   editProfileNameInput.value = profileTitleElement.textContent;
@@ -61,8 +62,9 @@ formElementNewCard.addEventListener("submit", (evt) => {
   evt.preventDefault();
   const newCardName = cardNameInput.value;
   const newCardLink = cardUrlInput.value;
-  const newCard = createCardElement({ name: newCardName, link: newCardLink }, deleteCard, openImagePopup,handleLike);
+  const newCard = createCardElement({ name: newCardName, link: newCardLink }, deleteCard, openImagePopup, handleLike);
   cardsContent.prepend(newCard);
   closeModal(popupTypeNewCard);
   formElementNewCard.reset();
 });
+
