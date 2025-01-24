@@ -39,6 +39,18 @@ const popupTypeAvatar = document.querySelector(".popup_type_avatar");
 const popupAvatarForm = document.querySelector('.popup__form[name="edit-avatar"]');
 const popupAvatarInput = popupAvatarForm.querySelector(".popup__input_type_avatar-url");
 
+const config = {
+    formSelector: ".popup__form",
+    inputSelector: ".popup__input",
+    submitButtonSelector: ".popup__button",
+    inactiveButtonClass: "popup__button_disabled",
+    inputErrorClass: "popup__input_type_error",
+    errorClass: "popup__error_visible",
+};
+
+enableValidation(config);
+
+
 function handleAvatarSubmit(evt) {
     evt.preventDefault();
     const popupButtonSafe = popupTypeAvatar.querySelector(".popup__button");
@@ -56,9 +68,9 @@ function handleAvatarSubmit(evt) {
 }
 
 profileAvatar.addEventListener("click", () => {
-    clearValidation(popupAvatarForm);
-    popupAvatarForm.reset();
     openModal(popupTypeAvatar);
+    clearValidation(profileAvatar,config);
+    popupAvatarForm.reset();
 });
 
 popupAvatarForm.addEventListener("submit", handleAvatarSubmit);
@@ -73,7 +85,7 @@ function openImagePopup(name, link) {
 function openEditProfilePopup() {
     editProfileNameInput.value = profileTitleElement.textContent;
     editProfileDescriptionInput.value = profileDescriptionElement.textContent;
-    clearValidation(formElementEditProfile);
+    clearValidation(formElementEditProfile,config);
     openModal(popupTypeEdit);
 }
 
@@ -119,16 +131,6 @@ formElementNewCard.addEventListener("submit", (evt) => {
         .finally(() => (popupButtonSafe.textContent = "Сохранить"));
 });
 
-const SettingValidation = {
-    formSelector: ".popup__form",
-    inputSelector: ".popup__input",
-    submitButtonSelector: ".popup__button",
-    inactiveButtonClass: "popup__button_disabled",
-    inputErrorClass: "popup__input_type_error",
-    errorClass: "popup__error_visible",
-};
-
-enableValidation(SettingValidation);
 
 Promise.all([getCardList(), getUserInfo()])
     .then(([cards, userData]) => {

@@ -16,9 +16,6 @@ export const getUserInfo = () => {
       headers: config.headers,
   })
       .then(handleResponse)
-      .catch((error) => {
-          console.error("Ошибка при получении данных о пользователе:", error);
-      });
 };
 
 export const updateUserInfo = (name, about) => {

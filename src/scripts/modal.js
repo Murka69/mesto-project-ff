@@ -3,7 +3,7 @@ function openModal(popup) {
   setTimeout(() => {
     popup.style.opacity = "1";
   }, 0);
-  document.addEventListener("keydown", (evt) => handleKeyDown(evt, popup));
+  document.addEventListener("keydown", handleKeyDown);
   popup.addEventListener("mousedown", handleOverlayClick);
 }
 
@@ -12,12 +12,13 @@ function closeModal(popup) {
   setTimeout(() => {
     popup.classList.remove("popup_is-opened");
   }, 300);
-  document.removeEventListener("keydown", (evt) => handleKeyDown(evt, popup));
+  document.removeEventListener("keydown", handleKeyDown);;
   popup.removeEventListener("mousedown", handleOverlayClick);
 }
 
-function handleKeyDown(evt, popup) {
-  evt.key === "Escape" && closeModal(popup);
+function handleKeyDown(evt) {
+  evt.key === "Escape" && closeModal(document.querySelector('.popup_is-opened'));
+  
 }
 
 function handleOverlayClick(evt) {
