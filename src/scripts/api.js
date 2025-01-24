@@ -10,7 +10,6 @@ const handleResponse = (response) => {
   return response.ok ? response.json() : Promise.reject(`Ошибка: ${response.status}`);
 };
 
-// Получение данных о пользователе
 export const getUserInfo = () => {
   return fetch(`${config.baseURL}/users/me`, {
       method: "GET",
@@ -22,7 +21,6 @@ export const getUserInfo = () => {
       });
 };
 
-// Обновление данных о пользователе
 export const updateUserInfo = (name, about) => {
   return fetch(`${config.baseURL}/users/me`, {
       method: "PATCH",
@@ -31,14 +29,12 @@ export const updateUserInfo = (name, about) => {
   }).then(handleResponse);
 };
 
-// Получение списка карточек
 export const getCardList = () => {
   return fetch(`${config.baseURL}/cards`, {
       headers: config.headers,
   }).then(handleResponse);
 };
 
-// Добавление новой карточки
 export const addNewCard = (name, link) => {
   return fetch(`${config.baseURL}/cards`, {
       method: "POST",
