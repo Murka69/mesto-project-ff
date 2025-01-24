@@ -1,0 +1,11 @@
+.card__like-container{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+}
+
+.like-count {
+    margin: 0;
+    padding-left: 5px;
+    line-height: 23px;
+}

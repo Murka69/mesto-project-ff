@@ -19,6 +19,41 @@
 .profile__edit-button:hover {
   opacity: 0.6;
 }
+.profile__avatar-container {
+  position: relative;
+}
+
+.profile__avatar-container:hover .profile__image {
+  opacity:0.6;
+}
+
+.profile__avatar-edit-button {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 84%; 
+  height: 102%; 
+  background: transparent;
+  cursor: pointer;
+  opacity: 0;
+}
+
+.profile__avatar-container:hover .profile__avatar-edit-button {
+  opacity: 1;
+  background: url('../../../images/edit-icon.svg') center no-repeat; 
+  background-size: 21px 21px;
+  border-radius: 70%;
+  border-color: transparent;
+}
+
+.profile__avatar-edit-button:focus {
+  outline: none; 
+}
+
+.profile__avatar-edit-button:active {
+  outline: none;
+}
+
 
 @media screen and (max-width: 480px) {
   .profile__edit-button {

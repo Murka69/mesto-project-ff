@@ -1,39 +1,85 @@
-export function renderCards(initialCards, cardsContent, openImagePopup, handleLike, deleteCard) {
-  initialCards.forEach(({ name, link }) => {
-    const card = createCardElement({ name, link }, deleteCard, openImagePopup, handleLike);
-    cardsContent.append(card);
-  });
+import { likeCard, dislikeCard, removeCard } from "./api.js";
+
+export function renderCards(initialCards, cardsContent, openImagePopup, userId) {
+    initialCards.forEach((cardData) => {
+        const card = createCardElement(cardData, openImagePopup, userId);
+        cardsContent.append(card);
+    });
 }
 
-export function handleLike(likeButton) {
-  likeButton.classList.toggle("card__like-button_is-active");
-}
+export function createCardElement(cardData, openImagePopup, userId) {
+    const { name, link, likes, _id, owner } = cardData;
+    const cardTemplate = document.querySelector("#card-template").content;
+    const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
+    const buttonDelete = cardItem.querySelector(".card__delete-button");
+    const likeButton = cardItem.querySelector(".card__like-button");
+    const likeCount = cardItem.querySelector(".like-count");
 
-export function createCardElement({ name, link }, deleteCard, openImagePopup, handleLike) {
-  const cardTemplate = document.querySelector("#card-template").content;
-  const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
-  const buttonDelete = cardItem.querySelector(".card__delete-button");
-  const likeButton = cardItem.querySelector(".card__like-button");
+    const cardImage = cardItem.querySelector(".card__image");
+    const cardTitle = cardItem.querySelector(".card__title");
 
-  cardItem.querySelector(".card__image").src = link;
-  cardItem.querySelector(".card__image").alt = name;
-  cardItem.querySelector(".card__title").textContent = name;
+    cardImage.src = link;
+    cardImage.alt = name;
+    cardTitle.textContent = name;
+    likeCount.textContent = likes.length;
+    
+    const isLiked = likes.some(like => like._id === userId);
 
-  buttonDelete.addEventListener("click", () => deleteCard(cardItem));
+    likeButton.classList.toggle("card__like-button_is-active", isLiked);
 
-  cardItem.addEventListener("click", (event) => {
-    if (event.target.closest(".card__image")) {
-      openImagePopup(name, link);
+    if (owner._id !== userId) {
+        buttonDelete.remove();
+    } else {
+        buttonDelete.addEventListener("click", () => deleteCard(cardItem, _id));
     }
-  });
 
-  likeButton.addEventListener("click", () => {
-    handleLike(likeButton);
-  });
+    cardImage.addEventListener("click", () => openImagePopup(name, link));
 
-  return cardItem;
+    likeButton.addEventListener("click", () => {
+        handleLike(likeButton, _id, likeCount);
+    });
+    return cardItem;
 }
 
-export function deleteCard(cardItem) {
-  cardItem.remove();
+export function handleLike(likeButton, cardId, likeCount) {
+    const isLiked = likeButton.classList.contains("card__like-button_is-active");
+
+    if (isLiked) {
+        dislikeCard(cardId)
+            .then((res) => {
+                if (res) {
+                    likeButton.classList.remove("card__like-button_is-active");
+                    likeCount.textContent = parseInt(likeCount.textContent, 10) - 1;
+                    likeButton[cardId] = false;
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    } else {
+        likeCard(cardId)
+            .then((res) => {
+                if (res) {
+                    likeButton.classList.add("card__like-button_is-active");
+                    likeCount.textContent = parseInt(likeCount.textContent, 10) + 1;
+                    likeButton[cardId] = true;
+                }
+            })
+            .catch((err) => {
+                console.log(err);
+            });
+    }
 }
+
+export function deleteCard(cardItem, cardId) {
+    removeCard(cardId)
+        .then((res) => {
+            if (res) {
+                cardItem.remove();
+            }
+        })
+        .catch((err) => {
+            console.log(err);
+        });
+}
+
