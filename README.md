@@ -1,6 +1,6 @@
 # Проектная работа Mesto
 
-https://Murka69.github.io/mesto-project-ff
+https://Murka69.github.io/mesto
 
 ## Описание проекта
 
