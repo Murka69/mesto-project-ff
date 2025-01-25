@@ -53,7 +53,7 @@ export function handleLike(likeButton, cardData, likesCountElement,likeCard, dis
     });
 }
 
-export function deleteCard(cardItem, cardId) {
+export function deleteCard(cardItem, cardId,removeCard) {
   removeCard(cardId)
     .then((res) => {
       if (res) {
