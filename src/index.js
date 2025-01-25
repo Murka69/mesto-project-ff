@@ -13,7 +13,7 @@ import { initialCards } from "./scripts/cards.js";
 import { renderCards, createCardElement } from "./scripts/card.js";
 import { openModal, closeModal, setupPopupCloseListeners } from "./scripts/modal.js";
 import { enableValidation, clearValidation } from "./scripts/validation.js";
-import { addNewCard, getCardList, getUser Info, updateUser Info, updateAvatar } from "./scripts/api.js";
+import { addNewCard, getCardList, getUserInfo, updateUserInfo, updateAvatar } from "./scripts/api.js";
 
 let userId = null;
 

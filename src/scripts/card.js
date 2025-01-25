@@ -7,7 +7,7 @@ export function renderCards(initialCards, cardsContent, openImagePopup, userId) 
   });
 }
 
-export function createCardElement(cardData, openImagePopup, userId) {
+export function createCardElement(cardData, openImagePopup, userId,removeCard) {
   const { name, link, likes, _id, owner } = cardData;
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
@@ -28,24 +28,25 @@ export function createCardElement(cardData, openImagePopup, userId) {
   if (owner._id !== userId) {
     deleteButton.remove();
   } else {
-    deleteButton.addEventListener("click", () => deleteCard(cardItem, _id));
+    deleteButton.addEventListener("click", () => deleteCard(cardItem, _id,removeCard));
   }
 
   cardImage.addEventListener('click', () => openImagePopup(name, link));
 
   likeButton.addEventListener('click', () => {
-    handleLike(likeButton, cardData, likesCountElement);
+    handleLike(likeButton, cardData, likesCountElement,likeCard, dislikeCard);
   });
 
   return cardItem;
 }
 
-export function handleLike(likeButton, cardData, likesCountElement) {
-  const isActive = likeButton.classList.toggle('card__like-button_is-active');
+export function handleLike(likeButton, cardData, likesCountElement,likeCard, dislikeCard) {
+  const isActive =  likeButton.classList.contains("card__like-button_is-active");
   const likeMethod = isActive ? likeCard : dislikeCard;
   likeMethod(cardData._id)
     .then((updatedCardData) => {
       likesCountElement.textContent = updatedCardData.likes.length; 
+      likeButton.classList.toggle(".card__like-button_is-active")
     })
     .catch((error) => {
       console.log(error);

@@ -21,7 +21,7 @@ function setEventListeners(form, config) {
 }
 function checkInputValidity(input, config) {
   const errorElement = input.nextElementSibling;
-  let errorMessage = "";
+  const errorMessage = input.validity.patternMismatch ? input.dataset.errorMessage : input.validationMessage;
   if (input.validity.patternMismatch) {
     errorMessage = input.dataset.errorMessage;
   }
