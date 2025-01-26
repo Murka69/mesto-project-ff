@@ -1,13 +1,13 @@
 import { likeCard, dislikeCard, removeCard } from "./api.js";
 
-export function renderCards(initialCards, cardsContent, openImagePopup, userId) {
+export function renderCards(initialCards, cardsContent, openImagePopup, userId, deleteCard, handleLike) {
   initialCards.forEach((cardData) => {
-    const card = createCardElement(cardData, openImagePopup, userId);
+    const card = createCardElement(cardData, openImagePopup, userId, deleteCard, handleLike);
     cardsContent.append(card);
   });
 }
 
-export function createCardElement(cardData, openImagePopup, userId,removeCard) {
+export function createCardElement(cardData, openImagePopup, userId, deleteCard, handleLike) {
   const { name, link, likes, _id, owner } = cardData;
   const cardTemplate = document.querySelector("#card-template").content;
   const cardItem = cardTemplate.querySelector(".places__item").cloneNode(true);
@@ -53,7 +53,7 @@ export function handleLike(likeButton, cardData, likesCountElement,likeCard, dis
     });
 }
 
-export function deleteCard(cardItem, cardId,removeCard) {
+export function deleteCard(cardItem, cardId) {
   removeCard(cardId)
     .then((res) => {
       if (res) {

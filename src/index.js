@@ -10,7 +10,7 @@
 
 import "./pages/index.css";
 import { initialCards } from "./scripts/cards.js";
-import { renderCards, createCardElement } from "./scripts/card.js";
+import { renderCards, createCardElement,  handleLike, deleteCard} from "./scripts/card.js";
 import { openModal, closeModal, setupPopupCloseListeners } from "./scripts/modal.js";
 import { enableValidation, clearValidation } from "./scripts/validation.js";
 import { addNewCard, getCardList, getUserInfo, updateUserInfo, updateAvatar } from "./scripts/api.js";
@@ -120,7 +120,7 @@ formElementNewCard.addEventListener("submit", (evt) => {
     const newCardLink = cardUrlInput.value;
     addNewCard(newCardName, newCardLink)
         .then((cardData) => {
-            const cardElement = createCardElement(cardData, openImagePopup, cardData.owner._id);
+            const cardElement = createCardElement(cardData, openImagePopup, cardData.owner._id, deleteCard, handleLike);
             cardsContent.prepend(cardElement);
             closeModal(popupTypeNewCard);
             formElementNewCard.reset();
@@ -137,7 +137,7 @@ Promise.all([getCardList(), getUserInfo()])
         profileTitleElement.textContent = userData.name;
         profileDescriptionElement.textContent = userData.about;
         profileAvatar.style.backgroundImage = `url(${userData.avatar})`;
-        renderCards(cards, cardsContent, openImagePopup, userId);
+        renderCards(cards, cardsContent, openImagePopup, userId, deleteCard, handleLike);
     })
     .catch((err) => {
         console.error(err);
